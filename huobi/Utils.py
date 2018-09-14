@@ -15,10 +15,13 @@ import urllib.parse
 import urllib.request
 import requests
 
-# 此处填写APIKEY
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-ACCESS_KEY = ""
-SECRET_KEY = ""
+# 此处填写APIKEY
+ACCESS_KEY = os.getenv("ACCESS_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 
