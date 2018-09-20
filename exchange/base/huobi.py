@@ -1,6 +1,6 @@
 # Author: Tao Hu <taohu620@gmail.com>
 
-from exchange.huobi.HuobiServices import get_ticker,send_order,get_kline
+from exchange.huobi.HuobiServices import get_ticker,send_order,get_kline, get_balance
 from exchange.base import Exchange
 
 class Huobi(Exchange.Exchange):
@@ -53,8 +53,23 @@ class Huobi(Exchange.Exchange):
         ret["record"] = result["data"]
         return ret
 
+    def getBalance(self,currency):
+        result = get_balance()
+        ret = {}
+        ret["info"] = result
+        for c in result['data']['list']:
+            if c['currency'] == currency and c['type'] == 'trade':
+                ret['balance'] =  c['balance']
+                return ret
+
+        raise ValueError("unknown currency: {}".format(currency))
+
+
+
 
 if __name__ == '__main__':
     hb = Huobi()
     #result = hb.getTicker(symbol="rdneth")
-    result = hb.getRecord(symbol="rdneth",period=Huobi.Period.PERIOD_D1,size=100)
+    #result = hb.getRecord(symbol="rdneth",period=Huobi.Period.PERIOD_D1,size=100)
+    result = hb.getBalance(currency="ht")
+    pass
