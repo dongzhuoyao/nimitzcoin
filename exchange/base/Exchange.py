@@ -3,7 +3,9 @@
 from enum import Enum
 
 
-
+class BaseContext(object):
+    def __init__(self):
+        pass
 
 class Exchange():
     def __init__(self):
@@ -15,10 +17,17 @@ class Exchange():
     def buy(self):
         raise NotImplementedError()
 
-    def getTicker(self,symbol):
+    def get_ticker(self,symbol):
         raise NotImplementedError()
 
-    def getRecords(self,period):
+    def get_trade(self,symbol):
         raise NotImplementedError()
+
+    def get_records(self,period):
+        raise NotImplementedError()
+
+    def get_balance(self,currency):
+        raise NotImplementedError()
+
 
 

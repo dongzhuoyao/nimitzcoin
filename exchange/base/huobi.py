@@ -1,6 +1,6 @@
 # Author: Tao Hu <taohu620@gmail.com>
 
-from exchange.huobi.HuobiServices import get_ticker,send_order,get_kline, get_balance
+from exchange.huobi.HuobiServices import get_ticker,send_order,get_kline, get_balance,get_trade
 from exchange.base import Exchange
 
 class Huobi(Exchange.Exchange):
@@ -27,12 +27,19 @@ class Huobi(Exchange.Exchange):
         return ret
 
     def buy(self, symbol, amount):
-        result = send_order(amount, symbol, _type="buy-market", source=None)
+        result = send_order(amount=amount, symbol=symbol, _type="buy-market", source=None)
         ret={}
         ret["info"] = result
         return ret
 
-    def getTicker(self, symbol):
+    def get_trade(self,symbol):
+        result = get_trade(symbol=symbol)
+        ret = {}
+        ret["info"] = result
+        ret['data'] = result['tick']['data'][0]
+        return ret
+
+    def get_ticker(self, symbol):
         result = get_ticker(symbol)
         ret = {}
         ret["info"] = result
@@ -46,14 +53,15 @@ class Huobi(Exchange.Exchange):
         ret["vol"] = result['tick']['vol']
         return ret
 
-    def getRecord(self,symbol, period, size):
+
+    def get_record(self,symbol, period, size):
         result = get_kline(symbol, period, size)
         ret = {}
         ret["info"] = result
         ret["record"] = result["data"]
         return ret
 
-    def getBalance(self,currency):
+    def get_balance(self,currency):
         result = get_balance()
         ret = {}
         ret["info"] = result
@@ -69,7 +77,9 @@ class Huobi(Exchange.Exchange):
 
 if __name__ == '__main__':
     hb = Huobi()
-    #result = hb.getTicker(symbol="rdneth")
+    result = hb.get_trade(symbol="kcashht")
     #result = hb.getRecord(symbol="rdneth",period=Huobi.Period.PERIOD_D1,size=100)
-    result = hb.getBalance(currency="ht")
+    #result = hb.getBalance(currency="ht")
+    #result = hb.buy(symbol="kcashht", amount=1)
+    #result = hb.getBalance(currency="kcash")
     pass
