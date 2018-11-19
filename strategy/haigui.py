@@ -104,7 +104,6 @@ def haigui():
         pass
 
     #TODO update context.unit_size every week~
-
     if context.trade_signal != context.pre_trade_signal or \
             (context.units_hold < context.units_hold_max and context.units_hold > 1) or \
         context.trade_signal == "stop":
